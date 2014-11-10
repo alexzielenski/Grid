@@ -1,0 +1,25 @@
+<template name="layout">
+    <div class="container">
+        <div class="masthead">
+            {{> navigation}}
+            <div class="brand">
+                <a href="{{urlFor 'play.index'}}" id="title">
+                    <h3 class="text-muted">Grid <small>Connect4 for bosses</small></h3>
+                </a>
+            </div>
+        </div>
+        <hr>
+        {{> errors}}
+
+        <div id="main" class="row-fluid">
+            {{> yield}}
+        </div>
+
+        <hr>
+        <div class="footer">
+            <p>
+                &copy; Alex Zielenski 2013-2015
+            </p>
+        </div>
+    </div>
+</template>

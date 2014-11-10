@@ -1,0 +1,339 @@
+html, body {
+  margin: 0;
+}
+
+.pagination {
+  margin: 0;
+
+  a {
+    cursor: pointer;
+  }
+}
+
+@page-width: 59em;
+.container {
+  max-width: @page-width;
+}
+
+.masthead {
+  height: 30px;
+  margin-top: 20px;
+  // overflow: hidden;
+  a {
+    text-decoration: none;
+  }
+
+  ul.nav {
+    margin: 0px;
+    float: none;
+  }
+}
+
+.masthead .brand {
+  h3 {
+    display: none;
+  }
+
+  small {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 565px) {
+  .masthead .brand {
+    small {
+      display: inline-block;
+    }
+  }
+}
+
+@media only screen and (min-width: 410px) {
+  .masthead {
+    ul.nav {
+      float: right !important;
+      padding-left: none;
+      li {
+        max-width: none !important;
+      }
+    }
+    .brand {
+      h3 {
+        display: block;
+        left: 0;
+        font-size: 24px;
+        height: inherit;
+      }
+    }
+  }
+}
+
+ul.nav {
+  padding-left: 12px;
+  li {
+    max-width: 72px;
+  }
+}
+
+// Disable any kind of selection on the canvas
+image, canvas {
+  user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+}
+
+td.number {
+  text-align: center;
+}
+
+table#userList {
+  th {
+    vertical-align: middle;
+    height: 2.143em;
+    line-height: 2.143em;
+  }
+  td {
+    cursor: pointer;
+    overflow: hidden;
+  }
+}
+
+div.alert {
+  a.btn {
+    position: relative;
+    top: -.2857em;
+    right: -.5em;
+    float: right;
+    line-height: 1em;
+    margin-left: .2857em;
+  }
+
+  margin-bottom: 0.429em;
+  padding: 7px 10px;
+}
+
+.inviteBox {
+  width: 5.357em;
+  float: right;
+  font-weight: bold;
+  right: -5.357em;
+  position: relative;
+  display: inline;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.boardView {
+  overflow: hidden;
+  position: relative;
+}
+
+@spacing: 0.429em;
+@top-spacing: 1.071em;
+ul {
+  padding: 0;
+
+  &.dynamicGrid {
+    list-style: none;
+    margin: -@top-spacing 0 0 -@spacing;
+
+    li {
+      @previewWidth: 7.500em;
+      @previewHeight: 6.429em;
+
+      display: inline-block;
+      margin: @top-spacing 0 0 @spacing;
+      vertical-align: top;
+      overflow: hidden;
+
+      canvas {
+        width: @previewWidth;
+        height: @previewHeight;
+      }
+
+      .opponentName {
+        text-align: center;
+        font-size: 10pt;
+        margin: 0 auto;
+        height: 20px;
+        width: @previewWidth;
+      }
+
+      .edit {
+        width: 6.8em;
+      }
+    }
+
+  }
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+a.name {
+  color: #333;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+  &:hover, &:focus, &:active {
+    color: #333;
+  }
+
+  &.dark {
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+    &:hover, &:focus, &:active {
+      color: #fff;
+    }
+
+    border-color: rgba(255, 255, 255, .2);
+  }
+
+  border-color: rgba(0, 0, 0, .2);
+}
+
+legend {
+  small {
+    color: rgb(153, 153, 153);
+    line-height: 1;
+    font-weight: normal;
+  }
+}
+
+div.well button.btn.pull-right {
+  margin-left: 0.286em;
+}
+
+span.errorBadge {
+  margin-right: 0.571em; // 8px
+  background-color:#b94a48;
+}
+
+.win {
+  color: green;
+  font-weight: bold;
+}
+
+.draw {
+  color: gray;
+  font-weight: bold;
+}
+
+.loss {
+  color: red;
+  font-weight: bold;
+}
+
+#friendSearchModal {
+  max-width: @page-width !important;
+  margin: 40px auto;
+  outline: none;
+  border: none;
+}
+
+.btn-inverse {
+  color: rgb(255, 255, 255);
+  background-color: rgb(36, 36, 36);
+  border-color: rgb(0, 0, 0);
+
+  &:hover {
+    color: rgb(255, 255, 255);
+  }
+
+  .caret {
+    border-top-color: white;
+  }
+}
+
+.btn-group.open .dropdown-toggle {
+  box-shadow: none !important;
+  -webkit-box-shadow: none;
+}
+
+/*
+  CSS3 Transition for buttons
+*/
+table#userList tbody tr {
+  .inviteBox {
+    transition: left 300ms;
+  }
+
+  &:hover > td .inviteBox {
+    right: 0em;
+  }
+}
+
+/*
+  bouncing animation for drops
+  replaces these percentages with point values at runtime
+*/
+
+@-webkit-keyframes bounce {
+  0% 	{ top:0%; timing-function: ease-in;  }
+  37% 	{ top:100%; timing-function:ease-out; }
+  55% 	{ top:75%; timing-function:ease-in;  }
+  73% 	{ top:100%; timing-function:ease-out; }
+  82% 	{ top:93%; timing-function:ease-in;  }
+  91% 	{ top:100%; timing-function:ease-out; }
+  96% 	{ top:98%; timing-function:ease-in;  }
+  100%	{ top:100%; }
+}
+
+/*
+    responsive table
+*/
+
+@media only screen and (max-width: 768px) {
+  /* Force table to not be like tables anymore */
+  table.collapsing-table,
+  table.collapsing-table thead,
+  table.collapsing-table tbody,
+  table.collapsing-table th,
+  table.collapsing-table td,
+  table.collapsing-table tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  table.collapsing-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  // table.collapsing-table tr { border: 1px solid #ccc; }
+
+  table.collapsing-table td {
+    /* Behave  like a "row" */
+    border: none !important;
+    border-bottom: 1px solid #eee !important;
+    position: relative;
+    padding-left: 30% !important;
+    white-space: normal;
+    text-align:left;
+  }
+
+  table.collapsing-table td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align:left;
+    font-weight: bold;
+  }
+
+  /*
+  Label the data
+  */
+  table.collapsing-table td:before { content: attr(data-title); }
+}

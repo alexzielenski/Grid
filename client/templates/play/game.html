@@ -1,0 +1,45 @@
+<template name="playGame">
+    <div class="well well-sm">
+        <span class="pull-left">
+            {{#if finishedAt}}
+                {{#if forfeit}}
+                    <strong><span style="color: red">{{player loser down=false}}</span></strong> forfeited the game to <strong><span style="color: green">{{player winner down=true}}</span></strong>
+                {{else}}
+                    {{#if draw}}
+                        The game ended in a tie.
+                    {{else}}
+                        {{winText}}
+                    {{/if}}
+                {{/if}}
+            {{else}}
+                It is <strong>{{turnText}}</strong> turn
+            {{/if}}
+        </span>
+        <div class="pull-right">
+            <a class="btn btn-xs name {{colorClass playerKey}}" style="background-color: {{color playerKey}}}" title="{{player playerKey}}" href="{{urlFor 'player.detail' _id=playerId}}">
+                {{player playerKey}}
+            </a>
+            <a class="btn btn-xs name {{colorClass opponentKey}}" style="background-color: {{color opponentKey}}}" title="{{player opponentKey down=true}}" href="{{urlFor 'player.detail' _id=opponentId}}">
+                {{player opponentKey down=true}}
+            </a>
+
+            {{#if not isSpectating}}
+                <button id="publicityButton" class="btn btn-primary btn-xs">
+                    {{#if public}}
+                        Make Private
+                    {{else}}
+                        Make Public
+                    {{/if}}
+                </button>
+
+                {{#if finishedAt}}
+                    <button id="rematchButton" class="btn btn-danger btn-xs">Rematch</button>
+                {{else}}
+                    <button id="forfeitButton" class="btn btn-danger btn-xs">Forfeit</button>
+                {{/if}}
+            {{/if}}
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    {{> board}}
+</template>

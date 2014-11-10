@@ -1,0 +1,48 @@
+<template name="playerDetail">
+    <div class="pull-left">
+        <h4>{{profile.name}} <small>{{title}}</small></h4>
+        {{#with count history.wins}}
+            <span class="win">{{this.amt}} {{plural amt "win"}}</span>,
+        {{/with}}
+        {{#with count history.draws}}
+            <span class="draw">{{this.amt}} {{plural amt "draw"}}</span>,
+        {{/with}}
+        {{#with count history.losses}}
+            <span class="loss">{{this.amt}} {{plural amt "loss" irregular="es"}}</span>
+        {{/with}}
+    </div>
+    <div class="pull-right">
+        {{#with ratio}}
+            <h4 class="pull-right">{{this}}</h4>
+        {{/with}}
+        {{#unless equal _id currentUser._id}}
+            <div class="clearfix"></div>
+            <div class="btn-group pull-right">
+                <a class="btn btn-xs btn-inverse dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="glyphicon glyphicon-cog glyphicon-white"></i>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a tabindex="-1" href="#" name="invite">Invite to play</a></li>
+                    {{#if friends}}
+                        <li><a tabindex="-1" href="#" name="unfriend">Unfriend</a></li>
+                    {{else}}
+                        {{#if not isFriend}}
+                            {{#if requestSent}}
+                                <li class="disabled"><a tabindex="-1" href="#">Friend request sent!</a></li>
+                            {{else}}
+                                <li><a tabindex="-1" href="#" name="friend">Add friend</a></li>
+                            {{/if}}
+                        {{/if}}
+                    {{/if}}
+                    <li class="divider"></li>
+                    <li><a tabindex="-1" class="loss" href="#" name="report">Report</a></li>
+                </ul>
+            </div>
+        {{/unless}}
+    </div>
+    <div class="clearfix"></div>
+    <hr>
+
+    {{> playerHistory this}}
+</template>

@@ -1,0 +1,53 @@
+<template name="searchModal">
+    <div class="modal fade" id="friendSearchModal" tabindex="-1" role="dialog" aria-labelledby="searchTitle" aria-hidden="true">
+        <!-- <div class="modal-dialog"> -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="searchTitle">Search fo' yo homies</h3>
+            </div>
+            <div class="modal-body">
+                {{> playerSearch}}
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</a>
+                <form class="form-search pull-left col-sm-5" style="margin: 0; padding: 0;">
+                    <div class="input-group">
+                        <input id="findUserQuery" type="text" class="form-control" placeholder="stamosfan69">
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- </div> -->
+    </div>
+</template>
+
+<template name="playerSearch">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th style="width: 5%">{{! Action}}</th>
+            <th style="width 80%">Player</th>
+            <th style="width: 15%">Join Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each searchResults}}
+            <tr>
+                <td>
+                    <a class="btn btn-xs btn-primary addButton" role="button" href="#">add</a>
+                </td>
+                <td>
+                    {{profile.name}}
+                </td>
+                <td>
+                    {{date createdAt}}
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</template>

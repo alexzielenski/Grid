@@ -1,0 +1,47 @@
+<template name="playAccount">
+    <form role="form" class="form form-horizontal">
+        <fieldset>
+            {{!  Form Name }}
+            <legend>{{profile.name}} <small>Account</small></legend>
+
+            {{! Display Name }}
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="displayName">Display Name:</label>
+                <div class="controls col-sm-4">
+                    <input type="text" name="name" id="displayName" placeholder="stamosfan69" value="{{profile.name}}" class="form-control">
+                </div>
+            </div>
+
+            {{! E-mail }}
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="email">E-mail:</label>
+                <div class="controls col-sm-4">
+                    <input type="text" name="email" id="email" readonly placeholder="stamosfan69@gmail.com" value="{{emails.first.address}}" class="form-control">
+                </div>
+            </div>
+
+            {{! Color }}
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="colorPicker">Color:</label>
+                <div class="col-sm-4">
+                    <div class="input-group colorpicker-component controls colorpicker-element">
+                        <input type="text" class="form-control" id="colorPicker" placeholder="rgb(0,0,0)" value="{{profile.color}}" spellcheck="false">
+                        <span class="input-group-addon"><i id="colorPreview" style="background-color: {{profile.color}}"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            {{! Save Button }}
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <button id="saveAccountButton" data-style="expand-right" class="btn btn-primary ladda-button" type="submit"><span class="ladda-label">Save</span></button>
+                    <button id="deleteAccountButton" data-style="expand-right" class="btn btn-danger ladda-button" type="button"><span class="ladda-label">Delete</span></button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+    <hr>
+
+    {{> playerDetail}}
+</template>

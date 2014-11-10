@@ -1,0 +1,19 @@
+<template name="playerListItem">
+    <tr>
+        <td>
+            {{#unless equal this._id currentUser._id}}
+                {{#if inviteText}}
+                    <span class="pull-right">{{inviteText}}</span>
+                {{else}}
+                    <button class="btn btn-xs btn-inverse ladda-button inviteBox" type="button"><span class="ladda-label">invite</span></button>
+                {{/if}}
+            {{/unless}}
+
+            {{profile.name}}
+        </td>
+        <td class="number">{{date createdAt}}</td>
+        <td class="number">{{history.wins.length}}</td>
+        <td class="number">{{history.draws.length}}</td>
+        <td class="number">{{history.losses.length}}</td>
+    </tr>
+</template>

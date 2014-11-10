@@ -1,0 +1,9 @@
+<template name="dashboard">
+    <ul class="dynamicGrid">
+        {{#each this}}
+            <li>
+                {{> dashboardListItem}}
+            </li>
+        {{/each}}
+    </ul>
+</template>

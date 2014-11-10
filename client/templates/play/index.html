@@ -1,0 +1,31 @@
+<template name="playIndex">
+    {{#if currentUser.requests.initiated.length}}
+        {{> inviteList currentUser.requests.initiated}}
+        {{#unless currentUser.requests.received.length}}
+            <hr>
+        {{/unless}}
+    {{/if}}
+    {{#if currentUser.requests.received.length}}
+        {{> inviteList currentUser.requests.received}}
+        <hr>
+    {{/if}}
+
+    {{#if showInvites}}
+        <h5>Invites</h5>
+        {{> invites}}
+        <hr>
+    {{/if}}
+
+    {{#if activeBoards.length}}
+        <h5>Boards</h5>
+        {{> dashboard activeBoards}}
+    {{else}}
+        No active games. <a href="{{pathFor 'play.players'}}">Invite</a> a friend to play!
+    {{/if}}
+
+    {{#if finishedBoards.length}}
+        <hr>
+        <h5>Recent Boards</h5>
+        {{> dashboard finishedBoards}}
+    {{/if}}
+</template>

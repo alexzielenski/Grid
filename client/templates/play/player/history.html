@@ -1,0 +1,50 @@
+<template name="playerHistory">
+    {{#with history}}
+        {{#if length}}
+            <div>
+                <h5 class="pull-left">Game History</h5>
+                {{#with ../..}}
+                    <div class="pull-right">
+                        {{! {pager}}
+                    </div>
+                {{/with}}
+            </div>
+            <table class="table table-bordered table-striped table-hover table-condensed collapsing-table">
+                <thead>
+                <tr>
+                    <th>Opponent</th>
+                    <th style="width: 15%; text-align: center">Date</th>
+                    <th style="width: 10%; text-align: center">Duration</th>
+                    <th style="width: 5%; text-align: center">Outcome</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each this}}
+                    <tr href="{{urlFor route="play.game" _id=id}}" style="cursor: pointer">
+                        <td data-title="Opponent">{{#linkTo route="player.detail" _id=opponent}}{{player opponent down=false}}{{/linkTo}}</td>
+                        <td class="number" data-title="Date">
+                            {{#if finishedAt}}
+                                {{date finishedAt}}
+                            {{else}}
+                                -
+                            {{/if}}
+                        </td>
+                        <td class="number" data-title="Duration">
+                            {{#if finishedAt}}
+                                {{turns}} {{plural turns "turn"}}
+                            {{else}}
+                                -
+                            {{/if}}
+                        </td>
+                        {{#with ../../..}}
+                            <td class="number" data-title="Outcome">{{outcome ..}}</td>
+                        {{/with}}
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        {{else}}
+            No games to show.
+        {{/if}}
+    {{/with}}
+</template>

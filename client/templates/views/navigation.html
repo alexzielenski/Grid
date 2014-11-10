@@ -1,0 +1,15 @@
+<template name="navigation">
+    {{#if items.length}}
+        <ul class="nav nav-pills">
+            {{#each items}}
+                <li class={{selected path}}>
+                    {{#if path}}
+                        <a href="{{urlFor path}}">{{title}}</a>
+                    {{else}}
+                        <a href="#">{{title}}</a>
+                    {{/if}}
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+</template>

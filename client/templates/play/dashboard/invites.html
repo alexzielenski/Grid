@@ -1,0 +1,29 @@
+<template name="invites">
+    {{> inviteList currentUser.invites.received}}
+    {{> inviteList currentUser.invites.initiated}}
+</template>
+
+<template name="inviteList">
+    {{#each this}}
+        {{> invite}}
+    {{/each}}
+</template>
+
+<template name="invite">
+    <div class="alert alert-{{type}}">
+        {{#if target}}
+            <a href="#" data-style="slide-up" class="btn inviteButton ladda-button btn-{{type}}" name="accept"><span class="ladda-label" style="font-weight: bold">accept</span></a>
+            <a href="#" data-style="slide-up" class="btn inviteButton ladda-button btn-{{type}}" name="decline"><span class="ladda-label" style="font-weight: bold">decline</span></a>
+        {{else}}
+            <a href="#" data-style="slide-up" class="btn inviteButton ladda-button btn-{{type}}" name="rescind"><span class="ladda-label" style="font-weight: bold">rescind</span></a>
+        {{/if}}
+        {{#with participants}}
+            {{#if ../friendRequest}}
+                {{! Cant do ../this for some reason... }}
+                {{#linkTo route="player.detail" data=initiator}}<strong>{{computedName initiator ../../..}}</strong>{{/linkTo}} asked to be friends with {{#linkTo route="player.detail" data=opponent}}<strong>{{computedName opponent ../../.. down=true}}</strong>{{/linkTo}}.
+            {{else}}
+                {{#linkTo route="player.detail" data=initiator}}<strong>{{computedName initiator ../../..}}</strong>{{/linkTo}} invited {{#linkTo route="player.detail" data=opponent}}<strong>{{computedName opponent ../../.. down=true}}</strong>{{/linkTo}} to play.
+            {{/if}}
+        {{/with}}
+    </div>
+</template>

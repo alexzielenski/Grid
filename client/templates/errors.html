@@ -1,0 +1,22 @@
+<template name="errors">
+    <div class="errors row-fluid">
+        {{#with errors}}
+            {{#if length}}
+                {{#each this}}
+                    {{> error}}
+                {{/each}}
+                <hr>
+            {{/if}}
+        {{/with}}
+    </div>
+</template>
+
+<template name="error">
+    <div class="alert alert-danger alert-dismissable">
+        {{#if gt repeat "1"}}
+            <span class="badge badge-important errorBadge">{{repeat}}</span>
+        {{/if}}
+        <button type="button" class="close" style="right: 0" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{message}}
+    </div>
+</template>

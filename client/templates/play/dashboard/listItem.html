@@ -1,0 +1,16 @@
+<template name="dashboardListItem">
+    <a href="{{pathFor 'play.game'}}">
+        {{> board}}
+    </a>
+
+    {{#if equal turn userKey}}
+        {{#unless finishedAt}}
+            <i class="glyphicon glyphicon-pencil pull-right" style="display: inline"></i>
+        {{/unless}}
+    {{/if}}
+
+    <p class="ellipsis opponentName {{editClass}}" style="{{outcomeStyle}}">
+        {{opponent.profile.name}}
+    </p>
+
+</template>
