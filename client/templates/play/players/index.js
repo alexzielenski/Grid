@@ -1,7 +1,8 @@
 var template = Template.playPlayers;
 
 template.rendered = function () {
-    $("#playersSearchField").val(this.data.search);
+    console.log(this.data);
+    $("#playersSearchField").val(this.data.filter);
 };
 
 template.helpers({
@@ -45,19 +46,22 @@ template.events({
             });
         }
     },
-    "submit form.form-search": function (e, instance) {
+    "submit form.form-search #playerFilter": function (e, instance) {
         e.preventDefault();
+        console.log("search");
         var query = $("#playersSearchField").val();
-        Router.go("play.players", undefined, { query: { search: query } });
+        Session.set("friendFilter", query);
+
+        if (history.pushState) {
+            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?search=" + query;
+            window.history.pushState({path:newurl},'',newurl);
+        }
     },
     "click tbody tr": function (e, template) {
         e.preventDefault();
         var tag = $(e.target).prop("tagName");
         if (tag != "BUTTON" && tag != "SPAN")
             Router.go("player.detail", { _id: this._id });
-    },
-    "transitionend": function (e, template) {
-        console.log(e);
     }
 });
 /*

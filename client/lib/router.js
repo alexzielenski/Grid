@@ -57,9 +57,12 @@ Router.route("/account", {
 
 Router.route("/players", {
     name: "play.players",
-    waitOn: function () {
+    action: function(a, b, c) {
         Session.set("findUserQuery", this.params.query.search);
-
+        Session.set("filterFriends", this.params.query.filter);
+        this.render();
+    },
+    waitOn: function() {
         var ar = [ userSub, friendSub ];
         return ar;
     },
@@ -76,12 +79,11 @@ Router.route("/players", {
             return { players: [] };
         }
 
-
-        var query = this.params.search;
+        var query = Session.get("filterFriends");
         if (query && query.length) {
             var expression = new RegExp(".*" + query + ".*", "i");
 
-            return { players: Users.find({ $or: [ { "profile.name": expression }, { "emails.address": expression } ] }).fetch(), search: query };
+            return { players: Users.find({ $or: [ { "profile.name": expression }, { "emails.address": expression } ] }).fetch(), filter: query };
         }
 
         return { players: Users.find({ _id: { $in: Meteor.user().friends }}).fetch() };
