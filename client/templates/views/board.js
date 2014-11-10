@@ -96,8 +96,8 @@ var isSpectating =  function () {
 Template.board.helpers({
     clickable: function() {
         // all boards should have the pointer cursor except finished ones on the game page
-        if (onPage("playGame"))
-            return (!this.finishedAt) ? "clickable" : "";
+        if (onPage("play.game"))
+            return (!this.finishedAt && !isSpectating.call(this)) ? "clickable" : "";
         return "clickable";
     },
     isSpectating: isSpectating
