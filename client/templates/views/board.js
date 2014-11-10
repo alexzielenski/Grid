@@ -16,8 +16,10 @@ Template.board.created = function () {
 };
 
 Template.board.destroyed = function () {
-    this._drawValidator.stop();
-    this._lastTileValidator.stop();
+    if (this.__drawValidator)
+        this._drawValidator.stop();
+    if (this.__lastTileValidator)
+        this._lastTileValidator.stop();
 };
 
 Template.board.rendered = function () {
