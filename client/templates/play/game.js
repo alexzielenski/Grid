@@ -64,8 +64,7 @@ Template.playGame.events = {
     },
     "click #publicityButton": function (e, template) {
         e.preventDefault();
-        me = this;
-        Meteor.call("togglePublicity", Session.get("currentBoardID"));
+        Meteor.call("togglePublicity", this._id);
     }
 };
 
