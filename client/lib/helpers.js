@@ -58,6 +58,10 @@ UI.registerHelper("plural", function (count, baseWord, options) {
     return (count != 1) ? baseWord + (options.hash.irregular ? options.hash.irregular : "s") : baseWord;
 });
 
+UI.registerHelper("toFixed", function(num, level) {
+    return parseFloat(num).toFixed(parseInt(level));
+})
+
 
 UI.registerHelper('for', function(options) {
     var out = "";

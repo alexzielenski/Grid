@@ -1,24 +1,18 @@
-var ratio = function () {
-    var base = "<span class=\"";
-    var cls  = "";
-    var text = this.ratio();
-
-    if (text > 1)
-        cls ="win";
-    else if (text < 1)
-        cls = "loss";
-    else
-        cls = "draw";
-
-    text = text.toFixed(2);
-
-    return new Handlebars.SafeString(base + cls + "\">" + text + " W/L" + "</span>");
-};
-
 Template.playerDetail.helpers({
-    ratio: ratio,
+    ratioClass: function() {
+        var text = this.ratio();
+
+        if (text > 1)
+            cls ="win";
+        else if (text < 1)
+            cls = "loss";
+        else
+            cls = "draw";
+
+        return cls;
+    },
     title: function () {
-        var text = ratio.call(this);
+        var text = this.ratio();
 
         // the context (this) is ratio
         if (text >= 10)

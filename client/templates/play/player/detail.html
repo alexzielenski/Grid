@@ -12,9 +12,8 @@
         {{/with}}
     </div>
     <div class="pull-right">
-        {{#with ratio}}
-            <h4 class="pull-right">{{this}}</h4>
-        {{/with}}
+        <h4 class="pull-right"><span class="{{ratioClass}}">{{toFixed ratio '2'}} W/L</span></h4>
+
         {{#unless equal _id currentUser._id}}
             <div class="clearfix"></div>
             <div class="btn-group pull-right">
