@@ -14,6 +14,7 @@ Template.playerSearch.helpers({
 
 Template.playerSearch.events({
     "click a.addButton": function (e, template) {
+        e.preventDefault();
         Meteor.call("invite", this._id, true, function (error, res) {
             if (error)
                 throwError(error.reason);
