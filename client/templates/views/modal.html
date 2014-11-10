@@ -1,0 +1,32 @@
+<template name="modal">
+    <div id="{{idName}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="{{idName}}_header" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    {{#if header.length}}
+                        <h3 id="{{idName}}_header">{{header}}</h3>
+                    {{/if}}
+                </div>
+                <div class="modal-body">
+                    {{#if message.length}}
+                        <p>
+                            {{message}}
+                        </p>
+                    {{/if}}
+                    {{#if bodyTemplate}}
+                        {{> bodyTemplate}}
+                    {{/if}}
+                </div>
+                <div class="modal-footer">
+                    {{#if otherButton.length}}
+                        <button class="btn {{otherClass}}" data-dismiss="modal" aria-hidden="true">{{otherButton}}</button>
+                    {{/if}}
+                    {{#if primaryButton.length}}
+                        <button class="btn {{primaryClass}} defaultButton" data-dismiss="modal">{{primaryButton}}</button>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

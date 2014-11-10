@@ -34,21 +34,18 @@ Template.playGame.events = {
         var dialog = $("#forfeitDialog");
 
         if (!dialog.length) {
-            var modal = Meteor.render(function () {
-                return Template.modal({
-                    primaryStyle: "danger",
-                    header: "You sure?",
-                    message: "Only losers forfeit, are you a loser?",
-                    primaryButton: "Yes, I am a loser.",
-                    otherButton: "Certainly not",
-                    callback: function () {
-                        Meteor.call("forfeit", me._id);
-                    },
-                    idName: "forfeitDialog"
-                });
-            });
+            var modal = UI.renderWithData(Template.modal, {
+                primaryStyle: "danger",
+                header: "You sure?",
+                message: "Only losers forfeit, are you a loser?",
+                primaryButton: "Yes, I am a loser.",
+                otherButton: "Certainly not",
+                callback: function () {
+                    Meteor.call("forfeit", me._id);
+                },
+                idName: "forfeitDialog"
+            }, document.body);
 
-            document.body.appendChild(modal);
             dialog = $("#forfeitDialog");
         }
 
