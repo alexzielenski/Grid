@@ -26,7 +26,7 @@ Template.playerDetail.helpers({
         else if (text >= 1.5)
             return "Good";
         else if (text >= 1.0)
-            return "Average";
+            return "Decent at best";
         else if (text >= 0.50)
             return "Noob";
         else if (text >= 0.25)
