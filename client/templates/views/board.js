@@ -29,6 +29,12 @@ Template.board.rendered = function () {
         // create a dependency on lastTile
         var col = me._highlightedColumn.get();
         me._drawValidator = c;
+        if (me._previousColumn == me._highlightedColumn.get()) {
+            return;
+        }
+
+        me._previousColumn = me._highlightedColumn.get();
+
         draw.call(me);
     });
 
@@ -115,9 +121,11 @@ Template.board.events({
             var y = e.pageY - node.offset().top;
 
             var mousePoint = { x: x, y: y };
+            var column = columnForPoint.call(template, mousePoint);
 
             // if our mouse switched columns, trigger the reaction
-            template._highlightedColumn.set(columnForPoint.call(template, mousePoint));
+            if (column != this._previousColumn)
+                template._highlightedColumn.set(column);
         } else if (onPage("play.game")) {
             // game is either over or the mouse is in hell
             // either way, remove the column and trigger
@@ -256,6 +264,13 @@ function draw() {
 
     var ctx    = canvas.getContext("2d");
 
+    // Canvas elements maintain a reference to the
+    // current draw path so every time we draw something
+    // it gets added to the path. overtime this path gets
+    // bigger and bigger to result in a slowdown
+    // clear the path and start fresh
+    ctx.beginPath();
+
     // cache these colors
     // Remember: this method gets run often so there is
     // a huge increase in performance when we only run this method
@@ -331,6 +346,9 @@ function draw() {
     // clear our drawing canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    var highlightedColumn = me._highlightedColumn.get();
+    var lastTile = me._lastTile.get();
+
     // canvases have a point of origin in the top left so we have to traverse
     // our rows in reverse
     for (var row = data.tall - 1; row >= 0; row--) {
@@ -341,22 +359,22 @@ function draw() {
             var color = colors[ownerAtIndex(data, idx)];
 
             // fill the highlighted column
-            if (col == this._highlightedColumn.get()) {
+            if (col == highlightedColumn) {
                 ctx.fillStyle = "rgba(123,123,123,0.5)";
-                ctx.fillRect(curX, curY, this._itemWidth, this._itemHeight);
+                ctx.fillRect(curX, curY, me._itemWidth, me._itemHeight);
 
                 var lastColor = colors[ownerAtIndex(data, idx - data.wide)];
-                if (color == undefined && (lastColor != undefined || row == 0) && !me._lastTile.get()) {
+                if (color == undefined && (lastColor != undefined || row == 0) && !lastTile) {
                     var borderRadius = Math.round(me._itemHeight / 25);
 
                     // draw the "preview"
                     ctx.fillStyle = colors[keyForUser(data, Meteor.userId())];
-                    ctx.fillRect(curX + borderRadius, curY + borderRadius, this._itemWidth - borderRadius * 2, this._itemHeight - borderRadius * 2);
+                    ctx.fillRect(curX + borderRadius, curY + borderRadius, me._itemWidth - borderRadius * 2, me._itemHeight - borderRadius * 2);
                 }
             }
 
             // fill the block with our color
-            if (!(idx == this._lastTile.get())) {// && this._isAnimating)) {
+            if (!(idx == lastTile)) {// && this._isAnimating)) {
                 if (color != undefined) {
                     ctx.fillStyle = color;
                     ctx.fillRect(curX, curY, this._itemWidth, this._itemHeight);
@@ -364,7 +382,7 @@ function draw() {
                 }
             }
 
-            curX += this._itemWidth;
+            curX += me._itemWidth;
 
             // Draw the grid line on the right
             ctx.moveTo(curX + d, curY);
@@ -375,7 +393,7 @@ function draw() {
         ctx.moveTo(0, curY + d);
         ctx.lineTo(canvas.width, curY + d);
 
-        curY += this._itemHeight;
+        curY += me._itemHeight;
     }
 
 
