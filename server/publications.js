@@ -53,7 +53,7 @@ Meteor.publish("opponents", function (userId) {
 });
 
 Meteor.publish("friends", function () {
-    return Users.find({ friends: { "$in": [ this.userId ] } }, { fields: { "services": 0, "friends": 0, "requests": 0, "invites": 0, "emails": 0, "history": 0 } });
+    return Users.find({ friends: { "$in": [ this.userId ] } }, { fields: { "services": 0, "friends": 0, "requests": 0, "invites": 0, "emails": 0 } });
 });
 
 Meteor.publish("currentPlayer", function (user) {
