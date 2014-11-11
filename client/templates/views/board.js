@@ -16,6 +16,10 @@ Template.board.created = function () {
 };
 
 Template.board.destroyed = function () {
+    if (this._animatingTile) {
+        this._animatingTile.anima().finish(true);
+    }
+
     if (this.__drawValidator)
         this._drawValidator.stop();
     if (this.__lastTileValidator)
@@ -198,6 +202,7 @@ function animate () {
         //element.stop();
         element.anima().finish(true);
     }
+    this._animatingTile = element;
 
     var duration = 750 * (canvasHeight - destY + me._itemHeight) / canvasHeight;
     element.css({
@@ -246,8 +251,14 @@ function animate () {
     }, duration * 0.04, "ease-in-quad");
     animation.css();
     animation.on("end", function(e) {
+        me._animatingTile = undefined;
         me._lastTile.set(undefined);
         me._isAnimating = false;
+
+        // Dont attempt redraw if the template has been destroyed after the animation completed
+        if (me.view.isDestroyed)
+            return;
+
         draw.call(me);
         element.hide();
     });

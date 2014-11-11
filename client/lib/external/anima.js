@@ -168,11 +168,19 @@
       return [ 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, p, 0, 0, 0, 1 ];
     },
     parse: function(s) {
+      /* This code was modified by Alex Zielenski to allow
+        for the animating element to be removed from the dom mid-animation
+       */
+      if (!s)
+        return [];
       if (s == "none") {
         return [];
       }
 
       var m = s.match(/\((.+)\)/);
+      if (m.length < 2) {
+        return [];
+      }
       m[1].split(/,\s?/);
       if (m.length === 6) {
         m.splice(2, 0, "0", "0");
