@@ -92,6 +92,10 @@ Router.route("/players", {
 
 Router.route("/play/:_id", {
     name: "play.game",
+    action: function() {
+        Session.set("currentBoardID", this.params._id);
+        this.render();
+    },
     waitOn: function () {
         return [ userSub, Meteor.subscribe("board", this.params._id) ];
     },
