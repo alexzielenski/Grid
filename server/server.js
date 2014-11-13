@@ -13,7 +13,6 @@ Meteor.startup(function () {
         appId: "384264588326319",
         secret: "44e0b0c468b520256da08bda33a8f7c9"
     });
-    console.log("configured");
 
     Accounts.onCreateUser(function (options, user) {
         if (options.profile)
@@ -50,6 +49,25 @@ Meteor.startup(function () {
         user.history.draws      = [];
         user.profile.color      = "rgb(" + randomClr() + "," + randomClr() + "," + randomClr() + ")";
 
+        user.record             = {};
+        user.record.wins        = 0;
+        user.record.losses      = 0;
+        user.record.draws       = 0;
+
         return user;
     });
+
+    /* Migrate database changes */
+
+     // database migrations
+    var Migrations = new Meteor.Collection('migrations');
+
+    // Adds the record key into the database for existing users
+    if (!Migrations.findOne({name: "recordKey"})) {
+        Users.find().forEach(function (user) {
+            Users.update(user._id, {$set: { record: { wins: user.history.wins.length, losses: user.history.losses.length, draws: user.history.draws.length } }});
+        });
+
+        Migrations.insert({name: "recordKey"});
+    }
 });

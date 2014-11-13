@@ -12,6 +12,7 @@
     friends: [ user_ids ]
     emails: [ { address: email, verified: true } ]
     color: valid css hex string
+    record: { wins: int, losses: int, draws: int }
  */
 
 Users = Meteor.users;
@@ -128,7 +129,7 @@ if (Meteor.isClient) {
         }
 
         if (!user.history)
-            user.history = [];
+            user.history = {};
         if (!user.history.wins)
             user.history.wins = [];
         if (!user.history.draws)
@@ -136,9 +137,18 @@ if (Meteor.isClient) {
         if (!user.history.losses)
             user.history.losses = [];
 
+        if (!user.record)
+            user.record = {};
+        if (!user.record.wins)
+            user.record.wins = user.history.wins.length;
+        if (!user.record.losses)
+            user.record.losses = user.history.losses.length;
+        if (!user.record.draws)
+            user.record.draws = user.history.draws.length;
+
         user.ratio = function () {
-            var wins   = this.history.wins.length;
-            var losses = this.history.losses.length ? this.history.losses.length : 1;
+            var wins   = this.record.wins;
+            var losses = this.record.losses;
             return wins / losses;
         }
 

@@ -161,23 +161,23 @@ moveCount = function (board) {
 }
 
 commitToHistory = function(board_id, winner, loser, forfeit, draw, createdAt, moves) {
-    var userUpdate = { $pull: { "history.active": { id: board_id } }, $addToSet: {}};
+    var userUpdate = { $pull: { "history.active": { id: board_id } }, $addToSet: {}, $inc: {}};
     var entry = { id: board_id, opponent: loser, forfeit: forfeit, finishedAt: new Date(), createdAt: createdAt, turns: moves };
-    var match = { $elemMatch: { "id": board_id } };
-    // var select = { "history.wins": match, "history.losses": match, "history.draws": match };
-    // var selectWinner = { _id: winner, $not: select };
-    // var selectLoser = { _id: loser, $not: select };
 
     if (!draw) {
         userUpdate.$addToSet["history.wins"] = entry;
+        userUpdate.$inc["record.wins"] = 1;
         Users.update(winner, userUpdate);
 
         userUpdate.$addToSet = {};
+        userUpdate.$inc["record.losses"] = 1;
+        userUpdate.$inc["record.wins"] = 0;
         entry.opponent = winner;
 
         userUpdate.$addToSet["history.losses"] = entry;
         Users.update(loser, userUpdate);
     } else {
+        userUpdate.$inc["record.draws"] = 1;
         userUpdate.$addToSet["history.draws"] = entry;
         Users.update(winner, userUpdate);
 
