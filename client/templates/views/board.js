@@ -30,7 +30,7 @@ Template.board.rendered = function () {
     var me = this;
 
     Tracker.autorun(function (c) {
-        // create a dependency on lastTile
+        // create a dependency on highlightedColumn
         var col = me._highlightedColumn.get();
         me._drawValidator = c;
         if (me._previousColumn == me._highlightedColumn.get()) {
