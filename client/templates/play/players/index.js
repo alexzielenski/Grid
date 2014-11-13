@@ -1,7 +1,6 @@
 var template = Template.playPlayers;
 
 template.rendered = function () {
-    console.log(this.data);
     $("#playersSearchField").val(this.data.filter);
 };
 
