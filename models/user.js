@@ -18,26 +18,6 @@
 Users = Meteor.users;
 
 boardListOfUser = function (user, exclude) {
-    function merge( first, second ) {
-        var l = second.length,
-            i = first.length,
-            j = 0;
-
-        if ( typeof l === "number" ) {
-            for ( ; j < l; j++ ) {
-                first[ i++ ] = second[ j ];
-            }
-        } else {
-            while ( second[j] !== undefined ) {
-                first[ i++ ] = second[ j++ ];
-            }
-        }
-
-        first.length = i;
-
-        return first;
-    }
-
     if (!user)
         return [];
 
@@ -53,13 +33,7 @@ boardListOfUser = function (user, exclude) {
     if (!user.history.active)
         user.history.active = [];
 
-    var list = user.history.wins.slice(0);
-    merge(list, user.history.losses);
-    merge(list, user.history.draws);
-
-    if (!exclude)
-        merge(list, user.history.active);
-
+    var list = user.history.wins.concat(user.history.draws, user.history.losses, exclude ? [] : user.history.active);
     return list;
 };
 
