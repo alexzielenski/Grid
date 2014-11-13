@@ -12,8 +12,8 @@ Tracker.autorun(function () {
     if (Meteor.userId()) {
         userSub   = Meteor.subscribe("user");
         activeSub = Meteor.subscribe("activeBoards");
-        recentSub = Meteor.subscribe("finishedBoards");
         friendSub = Meteor.subscribe("friends");
+        recentSub = Meteor.subscribe("finishedBoards", Session.get("finishedBoardsPage"), 12);
         enemySub  = Meteor.subscribe("opponents", Meteor.userId());
     } else if (Router.routes["welcome.index"]) {
         Router.go("welcome.index");
@@ -34,13 +34,16 @@ Router.configure({
 
 Router.route("/", {
     name: "play.index",
+    aciton: function() {
+        Session.set("finishedBoardsPage", 0);
+        this.render();
+    },
     waitOn: function() {
-        return [ userSub, activeSub, recentSub, enemySub ];
+        return [ userSub, activeSub, enemySub ];
     },
     data: function() {
-        var finished = Boards.find({ $or: [ { "target.id": Meteor.userId(), winner: { $exists: true } }, { "initiator.id": Meteor.userId(), winner: { $exists: true } } ] }, { sort: { finishedAt: -1 }, skip: 0, limit: 12 }).fetch();
-        var active = Boards.find({ $or: [ { "target.id": Meteor.userId(), winner: { $exists: false } }, { "initiator.id": Meteor.userId(), winner: { $exists: false } } ] }, { sort: { updatedAt: -1 } }).fetch();
-
+        var finished = Boards.find({ $or: [ { "target.id": Meteor.userId(), winner: { $exists: true } }, { "initiator.id": Meteor.userId(), winner: { $exists: true } } ] }, { sort: { finishedAt: -1 }, skip: 0, limit: 12 });
+        var active = Boards.find({ $or: [ { "target.id": Meteor.userId(), winner: { $exists: false } }, { "initiator.id": Meteor.userId(), winner: { $exists: false } } ] }, { sort: { updatedAt: -1 } });
         return { activeBoards: active, finishedBoards: finished };
     }
 });

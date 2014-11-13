@@ -1,0 +1,35 @@
+<template name="pagination">
+    <ul class="pagination pagination-sm">
+        {{#if showLeftArrow}}
+            <li>
+                <a href="#" data-page="1">&laquo;</a>
+            </li>
+        {{/if}}
+        {{#if showLeftDots}}
+            <li>
+                <a href="#" data-page={{leftDotPage}}>...</a>
+            </li>
+        {{/if}}
+        {{#each numbers}}
+            {{#if equal ../currentPage this}}
+                <li class="active">
+                    <a href="#" data-page="{{this}}">{{this}}</a>
+                </li>
+            {{else}}
+                <li>
+                    <a href="#" data-page="{{this}}">{{this}}</a>
+                </li>
+            {{/if}}
+        {{/each}}
+        {{#if showRightDots}}
+            <li>
+                <a href="#" data-page={{rightDotPage}}>...</a>
+            </li>
+        {{/if}}
+        {{#if showRightArrow}}
+            <li>
+                <a href="#" data-page={{totalPages}}>&raquo;</a>
+            </li>
+        {{/if}}
+    </ul>
+</template>

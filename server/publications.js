@@ -6,8 +6,14 @@ Meteor.publish("activeBoards", function (skip) {
     return Boards.find({ $or: [ { "target.id": this.userId, winner: { $exists: false } }, { "initiator.id": this.userId, winner: { $exists: false } } ] });
 });
 
-Meteor.publish("finishedBoards", function () {
-    return Boards.find({ $or: [ { "target.id": this.userId, winner: { $exists: true } }, { "initiator.id": this.userId, winner: { $exists: true } } ] }, { sort: { finishedAt: -1 }, skip: 0, limit: 12 });
+Meteor.publish("finishedBoards", function (page, perPage) {
+    if (!perPage || perPage > 12) {
+        perPage = 12;
+    }
+    if (page == undefined)
+        page = 0;
+
+    return Boards.find({ $or: [ { "target.id": this.userId, winner: { $exists: true } }, { "initiator.id": this.userId, winner: { $exists: true } } ] }, { sort: { finishedAt: -1 }, skip: page * perPage, limit: perPage });
 });
 
 Meteor.publish("board", function (board_id) {

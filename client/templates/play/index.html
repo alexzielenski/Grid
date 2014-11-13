@@ -16,16 +16,21 @@
         <hr>
     {{/if}}
 
-    {{#if activeBoards.length}}
+    {{#if activeBoards.count}}
         <h5>Boards</h5>
         {{> dashboard activeBoards}}
     {{else}}
         No active games. <a href="{{pathFor 'play.players'}}">Invite</a> a friend to play!
     {{/if}}
 
-    {{#if finishedBoards.length}}
+    {{#if finishedBoards.count}}
         <hr>
-        <h5>Recent Boards</h5>
+        <h5 class="pull-left">Recent Boards</h5>
+        <div class="pull-right">
+            {{> pagination pagerData}}
+        </div>
+        <div class="clearfix"></div>
+        <br>
         {{> dashboard finishedBoards}}
     {{/if}}
 </template>
