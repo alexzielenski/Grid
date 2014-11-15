@@ -13,31 +13,18 @@ Template.board.created = function () {
     // thank god i made this dynamic like a boss
     this._shouldAnimate      = true;// onPage("playGame");
     this._tileCount          = -1;
-};
 
-Template.board.destroyed = function () {
-    if (this._animatingTile) {
-        this._animatingTile.anima().finish(true);
-    }
-
-    if (this.__drawValidator)
-        this._drawValidator.stop();
-    if (this.__lastTileValidator)
-        this._lastTileValidator.stop();
-};
-
-Template.board.rendered = function () {
     var me = this;
 
     Tracker.autorun(function (c) {
         // create a dependency on highlightedColumn
         var col = me._highlightedColumn.get();
         me._drawValidator = c;
-        if (me._previousColumn == me._highlightedColumn.get()) {
+        if (me._previousColumn == col) {
             return;
         }
 
-        me._previousColumn = me._highlightedColumn.get();
+        me._previousColumn = col;
 
         draw.call(me);
     });
@@ -54,6 +41,10 @@ Template.board.rendered = function () {
         me._previousTile = me._lastTile.get();
         me._lastTileValidator = c;
         animate.call(me);
+    });
+
+    $(window).on("resize", function() {
+        draw.call(me);
     });
 
     this.autorun(function() {
@@ -90,9 +81,26 @@ Template.board.rendered = function () {
     });
 };
 
+Template.board.rendered = function() {
+    draw.call(this)
+};
+
+Template.board.destroyed = function () {
+    if (this._animatingTile) {
+        this._animatingTile.anima().finish(true);
+    }
+
+    if (this._drawValidator) {
+        this._drawValidator.stop();
+    }
+    if (this._lastTileValidator) {
+        this._lastTileValidator.stop();
+    }
+};
+
 var onPage = function(page) {
     return Router.current().route.getName() == page;
-}
+};
 
 var columnForPoint = function (point) {
     var col = parseInt(Math.floor(point.x / this._itemWidth));
@@ -145,7 +153,7 @@ Template.board.events({
             e.preventDefault();
 
             // use the highlighted column to determine where we are moving to.
-            Meteor.call("move", this, template._highlightedColumn.get(), function (error, id) {
+            Meteor.call("move", this, template._highlightedColumn.get(), function (error) {
                 if (error)
                     throwError(error.reason);
             });
@@ -155,6 +163,8 @@ Template.board.events({
 
 function animate () {
     var me = this;
+    if (!me.view.isRendered)
+        return;
 
     // dont draw with any data
     if (!me.data)
@@ -250,7 +260,7 @@ function animate () {
         "translate": [0, fallDistance * 0.02, 0]
     }, duration * 0.04, "ease-in-quad");
     animation.css();
-    animation.on("end", function(e) {
+    animation.on("end", function() {
         me._animatingTile = undefined;
         me._lastTile.set(undefined);
         me._isAnimating = false;
@@ -266,6 +276,8 @@ function animate () {
 
 function draw() {
     var me = this;
+    if (!me.view.isRendered)
+        return;
     var $canvas = $(me.find("canvas.board"));
     var data   = me.data;
     var canvas = $canvas[0];
